@@ -1,12 +1,14 @@
-﻿using TaskManagementAPI2.Models;
+﻿using TaskManagementAPI2.Dtos;
+using TaskManagementAPI2.Models;
 
 namespace TaskManagementAPI2.Services.UserService
 {
     public interface IUserService
     {
-        Task<ServiceResponse<List<User>>> GetAllUsersAsync();
-        Task<User?> GetUserById(int id);
-        Task<ServiceResponse<User>> AddUserAsync(User user);
+        Task<List<GetUserDto>> GetAllUsersAsync();
+        Task<GetUserDto?> GetUserById(int id);
+        Task<GetUserDto?> AddUserAsync(AddUserDto newUser);
+        Task<GetUserDto?> GetUserByName(string name);
         Task<ServiceResponse<bool>> DeleteUserAsync(User user);
     }
 }
