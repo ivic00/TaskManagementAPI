@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+using System.Text;
 using TaskManagementAPI2.Data;
 using TaskManagementAPI2.Dtos;
 using TaskManagementAPI2.Models;
@@ -60,6 +62,15 @@ namespace TaskManagementAPI2.Services.UserService
                 Email = u.Email,
                 Role = u.Role
             }).FirstOrDefaultAsync();
+
+        public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using (var hmac = new HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+            }
+        }
 
         public async Task<bool> UserExists(string name)
         {

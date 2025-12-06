@@ -9,5 +9,7 @@ namespace TaskManagementAPI2.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public Role Role { get; set; }
+        public int? TeamId { get; set; }
+        public Team? Team { get; set; }
     }
 }

@@ -1,6 +1,8 @@
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using TaskManagementAPI2.Data;
+using TaskManagementAPI2.Services.TeamService;
 using TaskManagementAPI2.Services.UserService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +18,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 );
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITeamService, TeamService>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddMapster();
 
 var app = builder.Build();
 
