@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TaskManagementAPI2.Dtos;
 using TaskManagementAPI2.Models;
+using TaskManagementAPI2.Services.JWT;
 
 
 namespace TaskManagementAPI2.Data
@@ -11,11 +12,13 @@ namespace TaskManagementAPI2.Data
     {
         public readonly AppDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IJwtService _jwtService;
 
-        public AuthRepository(AppDbContext context, IMapper mapper)
+        public AuthRepository(AppDbContext context, IMapper mapper, IJwtService jwtService)
         {
             _context = context;
             _mapper = mapper;
+            _jwtService = jwtService;
         }
 
         public async Task<GetUserDto?> Register(AddUserDto newUser)
@@ -47,7 +50,7 @@ namespace TaskManagementAPI2.Data
 
         }
 
-        public async Task<GetUserDto?> Login(string email, string password)
+        public async Task<string?> Login(string email, string password)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
             if (user == null) return null;
@@ -56,7 +59,8 @@ namespace TaskManagementAPI2.Data
 
             var res = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
 
-            if (res == PasswordVerificationResult.Success) return _mapper.Map<GetUserDto>(user);
+            if (res == PasswordVerificationResult.Success)
+                return _jwtService.GenerateToken(user);
 
             return null;
         }
