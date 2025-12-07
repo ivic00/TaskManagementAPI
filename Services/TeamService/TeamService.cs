@@ -40,11 +40,6 @@ namespace TaskManagementAPI2.Services.TeamService
 
         }
 
-        public Task<GetTeamDto> EditTeam(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<GetTeamDto?> GetTeamById(int id)
         {
             var team = await _context.Teams
@@ -61,14 +56,21 @@ namespace TaskManagementAPI2.Services.TeamService
             else return null;
         }
 
-        public Task<GetTeamDto> RemoveFromTeam(int teamId, int userId)
+        public async Task<bool> RemoveFromTeam(int userId)
         {
-            throw new NotImplementedException();
-        }
+            var user = await _context.Users.FindAsync(userId);
 
-        public Task<List<GetUserDto>> RemoveUser(int userId)
-        {
-            throw new NotImplementedException();
+            if (user is null) return false;
+
+            user.Team = null;
+            int? teamId = user.TeamId;
+            user.TeamId = null;
+
+            await _context.SaveChangesAsync();
+
+            if (teamId is null) return false;
+
+            return true;
         }
 
         public async Task<bool> TeamRulesCheck(AddTeamDto newTeam)
@@ -77,6 +79,20 @@ namespace TaskManagementAPI2.Services.TeamService
                 .Where(t => t.Name.ToLower() == newTeam.Name.ToLower() || newTeam.MemberIds.Contains(t.Id)).AnyAsync())
                 return false;
             else return true;
+        }
+
+        public async Task<GetTeamDto?> EditTeam(int id, UpdateTeamDto updatedTeam)
+        {
+            var team = await _context.Teams.FirstOrDefaultAsync(t => t.Id == id);
+
+            if (team is null) return null;
+
+            team.Name = updatedTeam.Name;
+            team.Description = updatedTeam.Description;
+
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<GetTeamDto>(team);
         }
     }
 }

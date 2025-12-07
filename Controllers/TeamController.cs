@@ -27,11 +27,31 @@ namespace TaskManagementAPI2.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<Task<GetTeamDto>>> GetTeamById(int id)
+        public async Task<ActionResult> GetTeamById(int id)
         {
             var team = await _teamService.GetTeamById(id);
             if (team is not null) { return Ok(team); }
             else return BadRequest($"Team does not exist with id: {id}");
+        }
+
+        [HttpDelete("{userId}")]
+        public async Task<ActionResult<Task<bool>>> RemoveFromTeam(int userId)
+        {
+            var res = await _teamService.RemoveFromTeam(userId);
+
+            if (!res) return NotFound(new { message = "User not found or doesn't have team" });
+
+            return Ok(new { message = "User removed from team" });
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Task<GetTeamDto?>>> EditTeam(int id, [FromBody] UpdateTeamDto newTeam)
+        {
+            var res = await _teamService.EditTeam(id, newTeam);
+
+            if (res is null) return BadRequest(new { message = "team does not exist" });
+
+            return Ok(res);
         }
     }
 }

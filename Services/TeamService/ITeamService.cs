@@ -1,5 +1,4 @@
-﻿using TaskManagementAPI2.Dtos;
-using TaskManagementAPI2.Dtos.TeamDtos;
+﻿using TaskManagementAPI2.Dtos.TeamDtos;
 
 namespace TaskManagementAPI2.Services.TeamService
 {
@@ -7,9 +6,8 @@ namespace TaskManagementAPI2.Services.TeamService
     {
         public Task<GetTeamDto?> CreateTeam(AddTeamDto newTeam);
         public Task<GetTeamDto?> GetTeamById(int id);
-        public Task<GetTeamDto> RemoveFromTeam(int teamId, int userId);
-        public Task<GetTeamDto> EditTeam(int id);
-        public Task<List<GetUserDto>> RemoveUser(int userId);
+        public Task<bool> RemoveFromTeam(int userId);
+        public Task<GetTeamDto?> EditTeam(int teamId, UpdateTeamDto updatedTeam);
         public Task<bool> TeamRulesCheck(AddTeamDto newTeam);
     }
 }
