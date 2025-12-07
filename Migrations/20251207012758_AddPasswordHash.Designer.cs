@@ -11,8 +11,8 @@ using TaskManagementAPI2.Data;
 namespace TaskManagementAPI2.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251206000636_AddUserTeamId")]
-    partial class AddUserTeamId
+    [Migration("20251207012758_AddPasswordHash")]
+    partial class AddPasswordHash
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -61,7 +61,7 @@ namespace TaskManagementAPI2.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

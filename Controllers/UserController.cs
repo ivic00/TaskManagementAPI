@@ -32,13 +32,5 @@ namespace TaskManagementAPI2.Controllers
             return user is null ? NotFound("User does not exist.") : Ok(user);
 
         }
-
-        [HttpPost("RegisterUser")]
-        public async Task<ActionResult<User>> RegisterUser(AddUserDto newUser)
-        {
-            var user = await _authRepository.Register(newUser);
-
-            return user is null ? BadRequest("User already exists.") : Ok(user);
-        }
     }
 }

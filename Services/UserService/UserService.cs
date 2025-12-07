@@ -15,31 +15,6 @@ namespace TaskManagementAPI2.Services.UserService
             _context = context;
         }
 
-        public async Task<GetUserDto?> AddUserAsync(AddUserDto newUser)
-        {
-
-            if (await UserExists(newUser.Name))
-            {
-                return null;
-            }
-
-            else
-            {
-                User user = new User
-                {
-                    Email = newUser.Email,
-                    Name = newUser.Name,
-                    Role = newUser.Role,
-                    Password = newUser.Password
-                };
-                await _context.AddAsync(user);
-                await _context.SaveChangesAsync();
-
-                return (await GetUserByName(user.Name));
-            }
-
-        }
-
         public Task<ServiceResponse<bool>> DeleteUserAsync(User user)
         {
             throw new NotImplementedException();
