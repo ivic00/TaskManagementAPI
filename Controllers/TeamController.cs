@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TaskManagementAPI2.Dtos.TeamDtos;
 using TaskManagementAPI2.Services.TeamService;
 
@@ -6,6 +7,7 @@ namespace TaskManagementAPI2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TeamController : ControllerBase
     {
         public readonly ITeamService _teamService;
@@ -15,6 +17,7 @@ namespace TaskManagementAPI2.Controllers
         }
 
         [HttpPost("CreateTeam")]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<ActionResult<Task<GetTeamDto>>> CreateTeam(AddTeamDto newTeam)
         {
             var team = await _teamService.CreateTeam(newTeam);
@@ -35,6 +38,7 @@ namespace TaskManagementAPI2.Controllers
         }
 
         [HttpDelete("{userId}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Task<bool>>> RemoveFromTeam(int userId)
         {
             var res = await _teamService.RemoveFromTeam(userId);
@@ -45,6 +49,7 @@ namespace TaskManagementAPI2.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<ActionResult<Task<GetTeamDto?>>> EditTeam(int id, [FromBody] UpdateTeamDto newTeam)
         {
             var res = await _teamService.EditTeam(id, newTeam);
