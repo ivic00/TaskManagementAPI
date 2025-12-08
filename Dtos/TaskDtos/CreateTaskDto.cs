@@ -1,17 +1,15 @@
-﻿namespace TaskManagementAPI2.Models
+﻿using TaskManagementAPI2.Models;
+
+namespace TaskManagementAPI2.Dtos.TaskDtos
 {
-    public class Task
+    public class CreateTaskDto
     {
-        public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public Enums.TaskStatus Status { get; set; }
         public Enums.TaskPriority Priority { get; set; }
         public int AssignedToId { get; set; }
-        public User AssignedTo { get; set; }
         public int CreatedById { get; set; }
-        public User CreatedBy { get; set; }
-        public int TeamId { get; set; }
         public Team Team { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

@@ -11,5 +11,8 @@ namespace TaskManagementAPI2.Models
         public Role Role { get; set; }
         public int? TeamId { get; set; }
         public Team? Team { get; set; }
+
+        public ICollection<Task> AssignedTasks { get; set; }
+        public ICollection<Task> CreatedTasks { get; set; }
     }
 }

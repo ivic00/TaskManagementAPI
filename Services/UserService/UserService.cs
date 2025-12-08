@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MapsterMapper;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
 using TaskManagementAPI2.Data;
@@ -10,9 +11,11 @@ namespace TaskManagementAPI2.Services.UserService
     public class UserService : IUserService
     {
         public readonly AppDbContext _context;
-        public UserService(AppDbContext context)
+        public readonly IMapper _mapper;
+        public UserService(AppDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public Task<ServiceResponse<bool>> DeleteUserAsync(User user)
@@ -21,22 +24,12 @@ namespace TaskManagementAPI2.Services.UserService
         }
 
         public async Task<List<GetUserDto>> GetAllUsersAsync()
-             => await _context.Users.Select(u => new GetUserDto
-             {
-                 Name = u.Name,
-                 Email = u.Email,
-                 Role = u.Role
-             }).ToListAsync();
+             => await _context.Users.Select(u => _mapper.Map<GetUserDto>(u)).ToListAsync();
 
         public async Task<GetUserDto?> GetUserById(int id)
             => await _context.Users
             .Where(u => u.Id == id)
-            .Select(u => new GetUserDto
-            {
-                Name = u.Name,
-                Email = u.Email,
-                Role = u.Role
-            }).FirstOrDefaultAsync();
+            .Select(u => _mapper.Map<GetUserDto>(u)).FirstOrDefaultAsync();
 
         public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
@@ -60,11 +53,10 @@ namespace TaskManagementAPI2.Services.UserService
         public async Task<GetUserDto?> GetUserByName(string name)
             => await _context.Users
             .Where(u => u.Name == name)
-            .Select(u => new GetUserDto
-            {
-                Name = u.Name,
-                Email = u.Email,
-                Role = u.Role
-            }).FirstOrDefaultAsync();
+            .Select(u => _mapper.Map<GetUserDto>(u)).FirstOrDefaultAsync();
+
+        async Task<GetUserDto> IUserService.GetUser(int id)
+            => _mapper.Map<GetUserDto>(await _context.Users.FindAsync(id));
+
     }
 }

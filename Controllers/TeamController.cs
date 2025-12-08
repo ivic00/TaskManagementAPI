@@ -30,6 +30,7 @@ namespace TaskManagementAPI2.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> GetTeamById(int id)
         {
             var team = await _teamService.GetTeamById(id);
@@ -38,7 +39,7 @@ namespace TaskManagementAPI2.Controllers
         }
 
         [HttpDelete("{userId}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<ActionResult<Task<bool>>> RemoveFromTeam(int userId)
         {
             var res = await _teamService.RemoveFromTeam(userId);
