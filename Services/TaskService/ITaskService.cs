@@ -5,6 +5,6 @@ namespace TaskManagementAPI2.Services.TaskService
     public interface ITaskService
     {
         public Task<GetTaskDto> GetTaskById(int id);
-        public Task<GetTaskDto> CreateTask(CreateTaskDto newTask);
+        public Task<bool> CreateTask(CreateTaskDto newTask, int creatorId);
     }
 }

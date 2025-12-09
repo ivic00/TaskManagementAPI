@@ -1,6 +1,4 @@
-﻿using TaskManagementAPI2.Models;
-
-namespace TaskManagementAPI2.Dtos.TaskDtos
+﻿namespace TaskManagementAPI2.Dtos.TaskDtos
 {
     public class CreateTaskDto
     {
@@ -9,10 +7,7 @@ namespace TaskManagementAPI2.Dtos.TaskDtos
         public Enums.TaskStatus Status { get; set; }
         public Enums.TaskPriority Priority { get; set; }
         public int AssignedToId { get; set; }
-        public int CreatedById { get; set; }
-        public Team Team { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public int TeamId { get; set; }
         public DateTime DueDate { get; set; }
     }
 }

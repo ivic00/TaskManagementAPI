@@ -6,6 +6,7 @@ using Scalar.AspNetCore;
 using System.Text;
 using TaskManagementAPI2.Data;
 using TaskManagementAPI2.Services.JWT;
+using TaskManagementAPI2.Services.TaskService;
 using TaskManagementAPI2.Services.TeamService;
 using TaskManagementAPI2.Services.UserService;
 
@@ -23,6 +24,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITeamService, TeamService>();
+builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddMapster();
