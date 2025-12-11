@@ -34,5 +34,14 @@ namespace TaskManagementAPI2.Controllers
             return Ok(res);
         }
 
+        [HttpPatch("ChangePassword")]
+        public async Task<ActionResult<bool>> ChangePassword([FromBody] ChangePasswordDto request)
+        {
+            var res =  await _authRepository.ChangePassword(request.email, request.oldPass, request.newPass, request.confirmNewPass);
+
+            if (!res) return BadRequest(new { message = "Password change failed. Please check your inputs." });
+
+            return Ok(res);
+        }
     }
 }

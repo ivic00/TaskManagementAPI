@@ -65,21 +65,20 @@ namespace TaskManagementAPI2.Data
             return null;
         }
 
-        /*public async Task<bool?> ChangePassword(string email, string password, string confirmPassword)
+        public async Task<bool> ChangePassword(string email, string oldPass, string newPass, string confirmNewPass)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
-            if (user == null) return null;
+            if (user == null) return false;
 
-            if(password == confirmPassword)
-            {
-                var passwordHasher = new PasswordHasher<User>();
+            if (newPass != confirmNewPass && oldPass != newPass) return false;
 
-                var hashRes = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
+            var passwordHasher = new PasswordHasher<User>();
 
-                if (hashRes == PasswordVerificationResult.Success) return true;
+            user.PasswordHash = passwordHasher.HashPassword(user, newPass);
 
-                else return false;
-            }
-        }*/
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
     }
 }

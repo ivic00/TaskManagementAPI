@@ -39,5 +39,16 @@ namespace TaskManagementAPI2.Controllers
 
             return Ok(res);
         }
+
+        [HttpGet("mytasks")]
+        public async Task<ActionResult<ICollection<GetTaskDto>>> GetMyTasks()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var res = await _taskService.GetMyTasks(int.Parse(userId));
+
+            if (res is null || res.Count == 0) return BadRequest(new { message = "tasks not found" });
+
+            return Ok(res);
+        }
     }
 }

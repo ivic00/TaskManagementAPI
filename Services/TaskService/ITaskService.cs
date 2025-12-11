@@ -6,5 +6,6 @@ namespace TaskManagementAPI2.Services.TaskService
     {
         public Task<GetTaskDto> GetTaskById(int id);
         public Task<bool> CreateTask(CreateTaskDto newTask, int creatorId);
+        public Task<ICollection<GetTaskDto>> GetMyTasks(int userId);
     }
 }

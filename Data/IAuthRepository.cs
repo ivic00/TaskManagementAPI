@@ -6,7 +6,7 @@ namespace TaskManagementAPI2.Data
     {
         public Task<GetUserDto?> Register(AddUserDto newUser);
         public Task<string?> Login(string email, string password);
-        //public Task<bool?> ChangePassword(string email, string password, string confirmPassword);
+        public Task<bool> ChangePassword(string email, string oldPassword, string newPassword, string confirmNewPassword);
         public Task<bool> UserExists(string name);
     }
 }

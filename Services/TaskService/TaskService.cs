@@ -39,5 +39,17 @@ namespace TaskManagementAPI2.Services.TaskService
 
             return _mapper.Map<GetTaskDto>(task);
         }
+
+        public async Task<ICollection<GetTaskDto>> GetMyTasks(int userId)
+        {
+            var tasks = await _context.Tasks
+                .Where(t => t.AssignedToId == userId)
+                .Include("CreatedBy")
+                .Include("AssignedTo")
+                .Include("Team")
+                .ToListAsync();
+
+            return _mapper.Map<ICollection<GetTaskDto>>(tasks);
+        }
     }
 }

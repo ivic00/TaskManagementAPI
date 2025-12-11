@@ -10,5 +10,6 @@ namespace TaskManagementAPI2.Services.UserService
         Task<GetUserDto> GetUser(int id);
         Task<GetUserDto?> GetUserByName(string name);
         Task<ServiceResponse<bool>> DeleteUserAsync(User user);
+
     }
 }
